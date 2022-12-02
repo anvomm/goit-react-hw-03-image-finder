@@ -4,12 +4,19 @@ import { picturesArrayFilter } from 'services/picturesArrayFilter';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
+import { Loader } from './Loader/Loader';
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.state = { query: '', searchDone: false, pictures: [], page: 1 };
+    this.state = {
+      query: '',
+      searchDone: false,
+      pictures: [],
+      page: 1,
+      isLoading: false,
+    };
   }
 
   componentDidUpdate(_, prevState) {
@@ -26,10 +33,13 @@ export class App extends Component {
 
   getPictures = async () => {
     const { query, page } = this.state;
+
+    this.setState({ isLoading: true });
+
     const arrayOfPictures = await fetchPictures(query, page);
     const arr = picturesArrayFilter(arrayOfPictures);
     this.setState(prevState => ({ pictures: [...prevState.pictures, ...arr] }));
-    console.log(arr);
+    this.setState({ isLoading: false });
   };
 
   showPictures = () => {
@@ -45,7 +55,7 @@ export class App extends Component {
   };
 
   render() {
-    const { pictures, query } = this.state;
+    const { pictures, query, isLoading } = this.state;
     return (
       <div>
         <Searchbar
@@ -54,6 +64,7 @@ export class App extends Component {
           handleInputChange={this.handleInputChange}
         />
         {pictures.length > 0 && <ImageGallery pictures={pictures} />}
+        {isLoading && <Loader />}
         {pictures.length > 0 && <Button loadMore={this.loadMore} />}
       </div>
     );
