@@ -1,18 +1,26 @@
 import { Component } from 'react';
 
 export class Searchbar extends Component {
+  constructor(props) {
+    super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(e) {
+    this.props.handleInputChange(e.target.value);
+  }
   state = {
     searchWord: '',
   };
 
-  inputHandler = e => {
+  /*  inputHandler = e => {
     this.setState({ searchWord: e.target.value });
-  };
+  }; */
 
   submitHandler = e => {
     const { searchWord } = this.state;
     e.preventDefault();
-    this.props.getPictures(searchWord);
+    this.props.showPictures();
     this.setState({ searchWord: '' });
   };
 
@@ -25,9 +33,9 @@ export class Searchbar extends Component {
           </button>
 
           <input
-            onChange={this.inputHandler}
+            onChange={this.handleInputChange}
             className="input"
-            value={this.state.searchWord}
+            value={this.props.query}
             type="text"
             autoComplete="off"
             autoFocus
