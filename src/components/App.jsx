@@ -5,6 +5,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
+import { Modal } from './Modal/Modal';
 import s from './App.module.css';
 
 export class App extends Component {
@@ -17,6 +18,7 @@ export class App extends Component {
       pictures: [],
       page: 1,
       isLoading: false,
+      currentImage: null,
     };
   }
 
@@ -55,8 +57,16 @@ export class App extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
+  openModal = imageURL => {
+    this.setState({ currentImage: imageURL });
+  };
+
+  closeModal = () => {
+    this.setState({ currentImage: null });
+  };
+
   render() {
-    const { pictures, query, isLoading } = this.state;
+    const { pictures, query, isLoading, currentImage } = this.state;
     return (
       <div className={s.App}>
         <Searchbar
@@ -64,9 +74,14 @@ export class App extends Component {
           query={query}
           handleInputChange={this.handleInputChange}
         />
-        {pictures.length > 0 && <ImageGallery pictures={pictures} />}
+        {pictures.length > 0 && (
+          <ImageGallery pictures={pictures} openModal={this.openModal} />
+        )}
         {isLoading && <Loader />}
         {pictures.length > 0 && <Button loadMore={this.loadMore} />}
+        {currentImage && (
+          <Modal largeImageURL={currentImage} closeModal={this.closeModal} />
+        )}
       </div>
     );
   }
