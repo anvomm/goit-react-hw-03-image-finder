@@ -15,7 +15,7 @@ export class App extends Component {
   componentDidUpdate(_, prevState) {
     const { searchDone, page } = this.state;
 
-    if (searchDone !== prevState.searchDone || page != prevState.page) {
+    if (searchDone !== prevState.searchDone || page !== prevState.page) {
       this.getPictures();
     }
   }
@@ -43,18 +43,16 @@ export class App extends Component {
   };
 
   render() {
-    const { pictures } = this.state;
+    const { pictures, query } = this.state;
     return (
       <div>
         <Searchbar
           showPictures={this.showPictures}
-          text={this.state.query}
+          query={query}
           handleInputChange={this.handleInputChange}
         />
-        {this.state.pictures.length > 0 && (
-          <ImageGallery pictures={this.state.pictures} />
-        )}
-        {this.state.pictures.length > 0 && <Button loadMore={this.loadMore} />}
+        {pictures.length > 0 && <ImageGallery pictures={pictures} />}
+        {pictures.length > 0 && <Button loadMore={this.loadMore} />}
       </div>
     );
   }

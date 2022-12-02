@@ -9,19 +9,10 @@ export class Searchbar extends Component {
   handleInputChange(e) {
     this.props.handleInputChange(e.target.value);
   }
-  state = {
-    searchWord: '',
-  };
-
-  /*  inputHandler = e => {
-    this.setState({ searchWord: e.target.value });
-  }; */
 
   submitHandler = e => {
-    const { searchWord } = this.state;
     e.preventDefault();
     this.props.showPictures();
-    this.setState({ searchWord: '' });
   };
 
   render() {
