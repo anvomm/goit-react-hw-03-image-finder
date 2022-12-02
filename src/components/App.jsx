@@ -5,6 +5,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
+import s from './App.module.css';
 
 export class App extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export class App extends Component {
   render() {
     const { pictures, query, isLoading } = this.state;
     return (
-      <div>
+      <div className={s.App}>
         <Searchbar
           showPictures={this.showPictures}
           query={query}
