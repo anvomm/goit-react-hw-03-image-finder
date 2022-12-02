@@ -1,16 +1,23 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+import { Component } from 'react';
+import { fetchPictures } from 'services/picturesAPI';
+import { picturesArrayFilter } from 'services/picturesArrayFilter';
+import { Searchbar } from './Searchbar/Searchbar';
+
+export class App extends Component {
+  state = {
+    searchWord: '',
+  };
+
+  getPictures = async searchWord => {
+    const arrayOfPictures = await fetchPictures(searchWord);
+    const arr = picturesArrayFilter(arrayOfPictures);
+    console.log(arr);
+  };
+  render() {
+    return (
+      <div>
+        <Searchbar getPictures={this.getPictures} />
+      </div>
+    );
+  }
+}
