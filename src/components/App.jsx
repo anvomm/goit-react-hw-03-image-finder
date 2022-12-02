@@ -35,6 +35,8 @@ export class App extends Component {
   showPictures = () => {
     this.setState(prevState => ({
       searchDone: !prevState.searchDone,
+      pictures: [],
+      page: 1,
     }));
   };
 
