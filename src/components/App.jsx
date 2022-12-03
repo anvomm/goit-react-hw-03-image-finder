@@ -19,6 +19,7 @@ export class App extends Component {
       page: 1,
       isLoading: false,
       currentImage: null,
+      idToScroll: '',
     };
   }
 
@@ -27,6 +28,18 @@ export class App extends Component {
 
     if (searchDone !== prevState.searchDone || page !== prevState.page) {
       this.getPictures();
+    }
+
+    if (page !== 1) {
+      const y =
+        document.getElementById(this.state.idToScroll).getBoundingClientRect()
+          .top +
+        window.scrollY -
+        80;
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth',
+      });
     }
   }
 
@@ -41,6 +54,7 @@ export class App extends Component {
 
     const arrayOfPictures = await fetchPictures(query, page);
     const arr = picturesArrayFilter(arrayOfPictures);
+    this.setState({ idToScroll: arr[0].id });
     this.setState(prevState => ({ pictures: [...prevState.pictures, ...arr] }));
     this.setState({ isLoading: false });
   };
