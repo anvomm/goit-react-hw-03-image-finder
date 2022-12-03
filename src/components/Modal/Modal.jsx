@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import s from './Modal.module.css';
+import { IconContext } from 'react-icons';
+import { CgClose } from 'react-icons/cg';
 
 export class Modal extends Component {
   componentDidMount() {
@@ -25,6 +27,15 @@ export class Modal extends Component {
     return (
       <div className={s.Overlay} onClick={this.closeOnOverlayCLick}>
         <div className={s.Modal}>
+          <button
+            className={s.CloseBtn}
+            type="button"
+            onClick={() => this.props.closeModal()}
+          >
+            <IconContext.Provider value={{ size: 30, color: 'white' }}>
+              <CgClose />
+            </IconContext.Provider>
+          </button>
           <img
             className={s.Modal__image}
             src={this.props.largeImageURL}
