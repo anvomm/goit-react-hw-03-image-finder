@@ -35,15 +35,7 @@ export class App extends Component {
     }
 
     if (page !== 1 && !modalShown) {
-      const y =
-        document.getElementById(this.state.idToScrollTo).getBoundingClientRect()
-          .top +
-        window.scrollY -
-        80;
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth',
-      });
+      this.scrollToFirstPicture();
     }
   }
 
@@ -103,6 +95,18 @@ export class App extends Component {
       draggable: true,
       progress: undefined,
       theme: 'colored',
+    });
+  }
+
+  scrollToFirstPicture() {
+    const y =
+      document.getElementById(this.state.idToScrollTo).getBoundingClientRect()
+        .top +
+      window.scrollY -
+      80;
+    window.scrollTo({
+      top: y,
+      behavior: 'smooth',
     });
   }
 
