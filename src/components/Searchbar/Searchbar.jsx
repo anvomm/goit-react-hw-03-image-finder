@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
@@ -8,13 +9,29 @@ export class Searchbar extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  notifyWarning = () => {
+    toast.warn('Your search query should contain at least one letter!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+
   handleInputChange(e) {
     this.props.handleInputChange(e.target.value);
   }
 
   submitHandler = e => {
     e.preventDefault();
-    this.props.showPictures();
+    if (this.props.query !== '') {
+      return this.props.showPictures();
+    }
+    this.notifyWarning();
   };
 
   render() {

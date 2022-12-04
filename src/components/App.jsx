@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchPictures } from 'services/picturesAPI';
 import { picturesArrayFilter } from 'services/picturesArrayFilter';
 import { Searchbar } from './Searchbar/Searchbar';
@@ -45,8 +47,21 @@ export class App extends Component {
     }
   }
 
+  notifyFailure = () =>
+    toast.error('☹️ No pictures found, please try another searchword!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+
   handleInputChange(newQuery) {
-    this.setState({ query: newQuery });
+    const a = newQuery.trim();
+    this.setState({ query: a });
   }
 
   getPictures = async () => {
@@ -56,6 +71,10 @@ export class App extends Component {
 
     const arrayOfPictures = await fetchPictures(searchWord, page);
     const arr = picturesArrayFilter(arrayOfPictures);
+    if (arr.length === 0) {
+      this.setState({ isLoading: false });
+      return this.notifyFailure();
+    }
     this.setState({ idToScroll: arr[0].id, modalShown: false });
     this.setState(prevState => ({ pictures: [...prevState.pictures, ...arr] }));
     this.setState({ isLoading: false });
@@ -95,6 +114,7 @@ export class App extends Component {
           query={query}
           handleInputChange={this.handleInputChange}
         />
+        <ToastContainer />
         {pictures.length > 0 && (
           <ImageGallery
             pictures={pictures}
