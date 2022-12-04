@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchPictures } from 'services/picturesAPI';
+import { fetchPictures, amountOfPages } from 'services/picturesAPI';
 import { filterPicturesArray } from 'services/picturesArrayFilter';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -20,6 +20,7 @@ export class App extends Component {
       searchDone: false,
       pictures: [],
       page: 1,
+      totalNumberOfPages: 0,
       isLoading: false,
       currentImage: null,
       idToScrollTo: '',
@@ -55,7 +56,11 @@ export class App extends Component {
       this.setState({ isLoading: false });
       return this.notifyAboutWrongQuery();
     }
-    this.setState({ idToScrollTo: filteredArray[0].id, modalShown: false });
+    this.setState({
+      idToScrollTo: filteredArray[0].id,
+      modalShown: false,
+      totalNumberOfPages: amountOfPages,
+    });
     this.setState(prevState => ({
       pictures: [...prevState.pictures, ...filteredArray],
     }));
@@ -112,7 +117,14 @@ export class App extends Component {
   }
 
   render() {
-    const { pictures, query, isLoading, currentImage } = this.state;
+    const {
+      pictures,
+      query,
+      isLoading,
+      currentImage,
+      totalNumberOfPages,
+      page,
+    } = this.state;
     return (
       <div className={s.App}>
         <Searchbar
@@ -128,7 +140,7 @@ export class App extends Component {
           />
         )}
         {isLoading && <Loader />}
-        {pictures.length > 0 && !isLoading && (
+        {pictures.length > 0 && !isLoading && totalNumberOfPages !== page && (
           <Button loadMore={this.loadMore} />
         )}
         {currentImage && (

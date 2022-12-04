@@ -4,6 +4,8 @@ axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 const API_KEY = '30530922-b2ca10c8a64b9d14f98bafcf1';
 
+export let amountOfPages = 0;
+
 export async function fetchPictures(searchWord, page) {
   try {
     const response = await axios.get('', {
@@ -17,6 +19,8 @@ export async function fetchPictures(searchWord, page) {
         safesearch: true,
       },
     });
+    amountOfPages = Math.ceil(response.data.totalHits / 12);
+    console.log(amountOfPages);
     return response.data.hits;
   } catch (error) {
     console.error(error);
