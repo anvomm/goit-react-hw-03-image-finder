@@ -9,7 +9,19 @@ export class Searchbar extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  notifyWarning = () => {
+  handleInputChange(e) {
+    this.props.handleInputChange(e.target.value);
+  }
+
+  submitHandler = e => {
+    e.preventDefault();
+    if (this.props.query !== '') {
+      return this.props.showPictures();
+    }
+    this.notifyAboutWhitespace();
+  };
+
+  notifyAboutWhitespace = () => {
     toast.warn('Your search query should contain at least one letter!', {
       position: 'top-right',
       autoClose: 5000,
@@ -20,18 +32,6 @@ export class Searchbar extends Component {
       progress: undefined,
       theme: 'colored',
     });
-  };
-
-  handleInputChange(e) {
-    this.props.handleInputChange(e.target.value);
-  }
-
-  submitHandler = e => {
-    e.preventDefault();
-    if (this.props.query !== '') {
-      return this.props.showPictures();
-    }
-    this.notifyWarning();
   };
 
   render() {

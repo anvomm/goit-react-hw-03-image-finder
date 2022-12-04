@@ -1,4 +1,4 @@
-export const picturesArrayFilter = array =>
+export const filterPicturesArray = array =>
   array.map(({ id, webformatURL, largeImageURL }) => ({
     id,
     webformatURL,
