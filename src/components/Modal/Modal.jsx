@@ -1,9 +1,11 @@
 import { Component } from 'react';
+import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 import { IconContext } from 'react-icons';
 import { CgClose } from 'react-icons/cg';
 import PropTypes from 'prop-types';
 
+const modalRoot = document.querySelector('#modal-root');
 export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.closeByEsc);
@@ -25,7 +27,7 @@ export class Modal extends Component {
     }
   };
   render() {
-    return (
+    return createPortal(
       <div className={s.Overlay} onClick={this.closeOnOverlayCLick}>
         <div className={s.Modal}>
           <button
@@ -43,7 +45,8 @@ export class Modal extends Component {
             alt={this.props.query}
           />
         </div>
-      </div>
+      </div>,
+      modalRoot
     );
   }
 }
