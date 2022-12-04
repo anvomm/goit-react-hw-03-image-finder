@@ -5,7 +5,7 @@ import s from './Loader.module.css';
 export const Loader = () => (
   <div className={s.Loader}>
     <RotatingLines
-      strokeColor="grey"
+      strokeColor="blue"
       strokeWidth="4"
       animationDuration="0.75"
       width="96"
