@@ -99,13 +99,12 @@ export class App extends Component {
   }
 
   scrollToFirstPicture() {
-    const y =
-      document.getElementById(this.state.idToScrollTo).getBoundingClientRect()
-        .top +
-      window.scrollY -
-      80;
-    window.scrollTo({
-      top: y,
+    const { height: cardHeight } = document
+      .getElementById(this.state.idToScrollTo)
+      .getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 1.8,
       behavior: 'smooth',
     });
   }
@@ -127,7 +126,9 @@ export class App extends Component {
           />
         )}
         {isLoading && <Loader />}
-        {pictures.length > 0 && <Button loadMore={this.loadMore} />}
+        {pictures.length > 0 && !isLoading && (
+          <Button loadMore={this.loadMore} />
+        )}
         {currentImage && (
           <Modal
             query={query}
