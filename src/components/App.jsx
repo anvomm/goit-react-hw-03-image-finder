@@ -38,9 +38,9 @@ export class App extends Component {
     if (page !== 1 && !modalShown) {
       this.scrollToFirstPicture();
     }
-
     if (page === totalNumberOfPages) {
       this.notifyAboutTheEndOfCollection();
+      this.setState({ totalNumberOfPages: 0 });
     }
   }
 
@@ -50,7 +50,7 @@ export class App extends Component {
   }
 
   getPictures = async () => {
-    const { searchWord, page } = this.state;
+    const { searchWord, page, totalNumberOfPages } = this.state;
 
     this.setState({ isLoading: true });
 
@@ -60,6 +60,7 @@ export class App extends Component {
       this.setState({ isLoading: false });
       return this.notifyAboutWrongQuery();
     }
+
     this.setState({
       idToScrollTo: filteredArray[0].id,
       modalShown: false,
@@ -157,7 +158,7 @@ export class App extends Component {
           />
         )}
         {isLoading && <Loader />}
-        {pictures.length > 0 && !isLoading && totalNumberOfPages !== page && (
+        {pictures.length > 0 && !isLoading && page < totalNumberOfPages && (
           <Button loadMore={this.loadMore} />
         )}
         {currentImage && (
