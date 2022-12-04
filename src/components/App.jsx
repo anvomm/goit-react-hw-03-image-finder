@@ -50,7 +50,7 @@ export class App extends Component {
   }
 
   getPictures = async () => {
-    const { searchWord, page, totalNumberOfPages } = this.state;
+    const { searchWord, page } = this.state;
 
     this.setState({ isLoading: true });
 
