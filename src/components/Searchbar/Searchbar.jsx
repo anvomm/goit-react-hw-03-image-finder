@@ -3,8 +3,8 @@ import s from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
