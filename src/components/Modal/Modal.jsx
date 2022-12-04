@@ -2,6 +2,7 @@ import { Component } from 'react';
 import s from './Modal.module.css';
 import { IconContext } from 'react-icons';
 import { CgClose } from 'react-icons/cg';
+import PropTypes from 'prop-types';
 
 export class Modal extends Component {
   componentDidMount() {
@@ -39,10 +40,16 @@ export class Modal extends Component {
           <img
             className={s.Modal__image}
             src={this.props.largeImageURL}
-            alt=""
+            alt={this.props.query}
           />
         </div>
       </div>
     );
   }
 }
+
+Modal.propTypes = {
+  query: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};

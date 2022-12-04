@@ -89,12 +89,20 @@ export class App extends Component {
           handleInputChange={this.handleInputChange}
         />
         {pictures.length > 0 && (
-          <ImageGallery pictures={pictures} openModal={this.openModal} />
+          <ImageGallery
+            pictures={pictures}
+            openModal={this.openModal}
+            query={query}
+          />
         )}
         {isLoading && <Loader />}
         {pictures.length > 0 && <Button loadMore={this.loadMore} />}
         {currentImage && (
-          <Modal largeImageURL={currentImage} closeModal={this.closeModal} />
+          <Modal
+            query={query}
+            largeImageURL={currentImage}
+            closeModal={this.closeModal}
+          />
         )}
       </div>
     );
