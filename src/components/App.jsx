@@ -29,7 +29,7 @@ export class App extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    const { searchDone, page, modalShown } = this.state;
+    const { searchDone, page, modalShown, totalNumberOfPages } = this.state;
 
     if (searchDone !== prevState.searchDone || page !== prevState.page) {
       this.getPictures();
@@ -37,6 +37,10 @@ export class App extends Component {
 
     if (page !== 1 && !modalShown) {
       this.scrollToFirstPicture();
+    }
+
+    if (page === totalNumberOfPages) {
+      this.notifyAboutTheEndOfCollection();
     }
   }
 
@@ -94,6 +98,19 @@ export class App extends Component {
 
   notifyAboutWrongQuery() {
     toast.error('☹️ No pictures found, please try another search query!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  }
+
+  notifyAboutTheEndOfCollection() {
+    toast.info('All the items suiting your inquiry are listed.', {
       position: 'top-right',
       autoClose: 5000,
       hideProgressBar: true,

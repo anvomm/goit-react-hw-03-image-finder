@@ -20,7 +20,6 @@ export async function fetchPictures(searchWord, page) {
       },
     });
     amountOfPages = Math.ceil(response.data.totalHits / 12);
-    console.log(amountOfPages);
     return response.data.hits;
   } catch (error) {
     console.error(error);
