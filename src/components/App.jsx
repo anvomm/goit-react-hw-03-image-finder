@@ -50,13 +50,15 @@ export class App extends Component {
     this.setState({ isLoading: true });
 
     const arrayOfPictures = await fetchPictures(searchWord, page);
-    const arr = filterPicturesArray(arrayOfPictures);
-    if (arr.length === 0) {
+    const filteredArray = filterPicturesArray(arrayOfPictures);
+    if (filteredArray.length === 0) {
       this.setState({ isLoading: false });
       return this.notifyAboutWrongQuery();
     }
-    this.setState({ idToScrollTo: arr[0].id, modalShown: false });
-    this.setState(prevState => ({ pictures: [...prevState.pictures, ...arr] }));
+    this.setState({ idToScrollTo: filteredArray[0].id, modalShown: false });
+    this.setState(prevState => ({
+      pictures: [...prevState.pictures, ...filteredArray],
+    }));
     this.setState({ isLoading: false });
   };
 
