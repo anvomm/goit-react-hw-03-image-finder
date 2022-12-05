@@ -4,21 +4,24 @@ import s from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
-  constructor() {
-    super();
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
+  state = {
+    query: '',
+  };
 
-  handleInputChange(e) {
-    this.props.handleInputChange(e.target.value);
-  }
+  handleInputChange = e => {
+    this.setState({ query: e.target.value });
+  };
 
   submitHandler = e => {
+    const { query } = this.state;
     e.preventDefault();
-    if (this.props.query !== '') {
-      return this.props.showPictures();
+
+    if (query.trim() === '') {
+      return this.notifyAboutWhitespace();
     }
-    this.notifyAboutWhitespace();
+
+    this.props.showPictures(query);
+    this.setState({ query: '' });
   };
 
   notifyAboutWhitespace = () => {
@@ -45,7 +48,7 @@ export class Searchbar extends Component {
           <input
             onChange={this.handleInputChange}
             className={s.SearchForm__input}
-            value={this.props.query}
+            value={this.state.query}
             type="text"
             autoComplete="off"
             autoFocus
@@ -58,7 +61,5 @@ export class Searchbar extends Component {
 }
 
 Searchbar.propTypes = {
-  query: PropTypes.string.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
   showPictures: PropTypes.func.isRequired,
 };
